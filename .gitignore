@@ -1,0 +1,15 @@
+*.temp
+*.tmp
+*.o
+*.so
+*.exe
+*.dll
+*.class
+*.log
+node_modules/
+venv/
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+

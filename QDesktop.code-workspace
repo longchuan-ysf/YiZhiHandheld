@@ -1,0 +1,16 @@
+{
+	"folders": [
+		{
+			"path": "."
+		}
+	],
+	"settings": {
+		"files.exclude": {
+            "**/*.o": true,
+            "**/*.obj": true,
+            "**/bin": true,
+            "**/build": true,
+            // 添加任何其他你希望隐藏的文件或文件夹
+        }
+	}
+}
