@@ -845,6 +845,8 @@ qrc_qml.cpp: qml.qrc \
 		desktop/images/play.png \
 		desktop/images/bell.png \
 		desktop/images/clock-night.png \
+		desktop/images/background1.jpg \
+		desktop/images/background2.jpg \
 		desktop/images/logo-428x214.png \
 		desktop/images/minute.png \
 		desktop/images/center.png \
@@ -855,6 +857,7 @@ qrc_qml.cpp: qml.qrc \
 		desktop/images/second.png \
 		desktop/images/back.png \
 		desktop/images/logo.png \
+		desktop/images/home.png \
 		desktop/androidstyleicons/apps.png \
 		desktop/androidstyleicons/tcpclient.png \
 		desktop/androidstyleicons/cd.png \
@@ -884,7 +887,6 @@ qrc_qml.cpp: qml.qrc \
 		desktop/winstyleicons/settings_app.png \
 		desktop/winstyleicons/wirless_app.png \
 		desktop/winstyleicons/camera_app.png \
-		desktop/winstyleicons/calc_app.png \
 		desktop/winstyleicons/album_app.png \
 		desktop/winstyleicons/music_app_icon.png \
 		desktop/winstyleicons/alarm_app.png \
@@ -893,6 +895,7 @@ qrc_qml.cpp: qml.qrc \
 		desktop/winstyleicons/tcp_s.png \
 		desktop/winstyleicons/file_app.png \
 		desktop/winstyleicons/weather_app_rain.png \
+		desktop/winstyleicons/calc_icon.png \
 		desktop/winstyleicons/3dcube_app.png \
 		desktop/winstyleicons/iotest_app.png \
 		desktop/winstyleicons/radio_app.png \
@@ -914,6 +917,7 @@ qrc_qml.cpp: qml.qrc \
 		aircondition/CustomDial.qml \
 		aircondition/MyDial.qml \
 		aircondition/images/dialbg.png \
+		myText/DynamicTextColorText.qml \
 		tcpclient/TcpClient.qml \
 		tcpclient/images/leftMessagebg.png \
 		tcpclient/images/boy.jpg \
@@ -925,6 +929,8 @@ qrc_qml.cpp: qml.qrc \
 		photoview/PhotoListView.qml \
 		photoview/PhotoView.qml \
 		photoview/icons/back.png \
+		PageIndices/qmldir \
+		PageIndices/PageIndices.qml \
 		radio/Radio.qml \
 		radio/images/handle.png \
 		radio/images/sliderbg.png \

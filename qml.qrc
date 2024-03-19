@@ -129,7 +129,6 @@
         <file>desktop/winstyleicons/3dcube_app.png</file>
         <file>desktop/winstyleicons/alarm_app.png</file>
         <file>desktop/winstyleicons/album_app.png</file>
-        <file>desktop/winstyleicons/calc_app.png</file>
         <file>desktop/winstyleicons/camera_app.png</file>
         <file>desktop/winstyleicons/file_app.png</file>
         <file>desktop/winstyleicons/iotest_app.png</file>
@@ -178,5 +177,13 @@
         <file>cameramedia/MyCameraMedia.qml</file>
         <file>desktop/images/logo-428x214.png</file>
         <file>desktop/images/logo.png</file>
+        <file>desktop/images/background1.jpg</file>
+        <file>myText/DynamicTextColorText.qml</file>
+        <file>desktop/images/background2.jpg</file>
+        <file>PageIndices/PageIndices.qml</file>
+        <file>PageIndices/qmldir</file>
+        <file>desktop/winstyleicons/calc_icon.png</file>
+        <file>desktop/images/home.png</file>
+        <file>desktop/MyWinDesktop.qml</file>
     </qresource>
 </RCC>

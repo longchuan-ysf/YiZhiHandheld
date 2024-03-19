@@ -35,6 +35,7 @@ import "./system"
 import "./radio"
 import "./settings"
 import "./cameramedia"
+import "./myText"
 
 Window {
     id: mainWindow
@@ -47,11 +48,15 @@ Window {
     property bool rebootFlag: false
     property bool poweroffFlag: false
     property bool backFlag: false
+    property string currentBackground: "qrc:/desktop/images/background1.jpg"
+
+
+
     visible: true
 //    width: WINenv ? 800 : Screen.desktopAvailableWidth
 //    height: WINenv ? 480 : Screen.desktopAvailableHeight
-        width: 800
-        height: 480
+    width: 800
+    height: 480
     property bool smallScreen: width == 480 ? true : false
 
     //flags:Qt.FramelessWindowHint
@@ -92,11 +97,13 @@ Window {
             }
         }
     }
+    //悬浮返回按键
     RoundButton {
         id: backBtn
         z: 109
-        x: parent.x + parent.width - 90
-        y: parent.y + parent.height / 2 - 50
+        x: parent.x + parent.width - 60
+//        y: parent.y + parent.height / 2 - 50
+        y: 0
         width: 60
         height: 60
         focus: false
@@ -110,7 +117,10 @@ Window {
         Image {
             anchors.centerIn: parent
             id: backImage
-            source: "qrc:/desktop/images/back.png"
+            source: "qrc:/desktop/images/home.png"
+            fillMode: Image.PreserveAspectCrop
+            width: 60
+            height: 60
         }
         MouseArea {
             anchors.fill: parent
@@ -129,9 +139,19 @@ Window {
             }
         }
     }
+    /*主界面背景*/
     Rectangle {
+        z:0
         anchors.fill: parent
-        color: "#cc6633"
+//        color: "#cc6633"
+        Image {
+            id: backgroundImage
+            anchors.fill: parent
+            source: currentBackground // 更改为你的图片路径
+            fillMode: Image.PreserveAspectCrop // 或者选择其他适合你的填充模式
+        }
+
+
     }
 
     Item {
@@ -370,7 +390,7 @@ Window {
         }
     }
 
-
+    //主界面通过SwipeView列向将所有界面排布，选中那个界面程序跳转到那里。
     Rectangle {
         anchors.left: parent.left
         anchors.top: parent.top
@@ -383,12 +403,9 @@ Window {
             interactive: false
             orientation: ListView.Vertical
             Component.onCompleted: {
-                contentItem.highlightMoveDuration = 1000
+                contentItem.highlightMoveDuration = 300
             }
-            // Desktop 与 WinStyleDesktop 只能二选一，选择DeskTop需要取消注释Applications，
-            // 这里设计两款桌面，一种是类似是安卓类型，一种是类似Win10类型
-            DeskTop{}
-//            WinStyleDesktop{}
+            MyWinDesktop{}//第一个主界面也是一个SwipeView横向排布
             Music{}
             Alarm{}
             //Media{}
@@ -422,43 +439,33 @@ Window {
         anchors.top: mainWindow.top
         anchors.left: mainWindow.left
         width: mainWindow.width
-        height: 30
+        height: 38
         Rectangle {
             anchors.fill: topMenu
-            //color: "#55111111"
-            color: "transparent"
-            Text {
+
+//            color: "transparent"
+            color: Qt.rgba(1, 1, 1, 0.5)
+            DynamicTextColorText  {
+                backgroundSource: mainWindow.currentBackground
+                textType:0
                 id: netText
                 text: qsTr("亿智家教掌机")
-                color: "white"
+//                color: "#F4B17C"
                 font.bold: true
-                font.pixelSize: 20
-                anchors.left: alientek.right
-                anchors.leftMargin: 10
-                anchors.verticalCenter: parent.verticalCenter
-            }
-            Image {
-                id: alientek
-                width:100
-                height: 30
-                fillMode: Image.PreserveAspectFit
-                source: "qrc:/desktop/images/logo.png"
-
-                anchors.left: parent.left
-                //anchors.leftMargin: mainSwipeView.currentIndex == 0 ? 5 : 40
-                anchors.leftMargin: 5
+                font.pixelSize: 26
+                anchors.horizontalCenter: parent.horizontalCenter
                 anchors.verticalCenter: parent.verticalCenter
             }
 
-
-
-            Text {
+            DynamicTextColorText {
                 id: displayCpuTemp
-                anchors.verticalCenter: alientek.verticalCenter
+                visible: false//原本可以显示cpu温度，但是太难看了屏蔽掉
+//              anchors.verticalCenter: alientek.verticalCenter
                 anchors.left: netText.right
                 anchors.leftMargin: 10
                 text: qsTr("CPU:50℃")
-                color: "white"
+                backgroundSource: mainWindow.currentBackground
+                textType:0
                 font.bold: true
                 font.pixelSize: 20
             }
@@ -466,29 +473,6 @@ Window {
     }
 
 
-    Text {
-        id: mainTimeText
-        visible: false // mainSwipeView.currentIndex == 0
-        text: currentTimeString
-        anchors.top: parent.top
-        anchors.topMargin: 50
-        anchors.left: parent.left
-        anchors.leftMargin: 50
-        color: "white"
-        font.pixelSize: 30
-        font.bold: true
-    }
-    Text {
-        id: weekText
-        visible: false // mainSwipeView.currentIndex == 0
-        text: currentWeekString
-        anchors.top: mainTimeText.bottom
-        anchors.topMargin: 5
-        anchors.horizontalCenter: mainTimeText.horizontalCenter
-        color: "#99eeeeee"
-        font.pixelSize: 15
-        font.bold: true
-    }
 
     function currentDate(){
         return Qt.formatDateTime(new Date(), "ddd yyyy年MM月dd日" )
@@ -538,6 +522,16 @@ Window {
     function currentTimeSecond(){
         dayOrNight = new Date().getHours()
         return Qt.formatDateTime(new Date(), "hh:mm:ss" )
+    }
+
+    // 假设这是用户通过某种方式选择背景1的操作
+    function selectBackground1() {
+        mainWindow.currentBackground = "qrc:/desktop/images/background1.jpg";
+    }
+
+    // 假设这是用户通过某种方式选择背景2的操作
+    function selectBackground2() {
+        mainWindow.currentBackground = "qrc:/desktop/images/background2.jpg";
     }
 
     Timer{

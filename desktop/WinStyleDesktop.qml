@@ -9,6 +9,10 @@ import QtQuick 2.4
 import an.weather 1.0
 import an.model 1.0
 import "../settings"
+import "../myText"
+import "../PageIndices"
+
+
 Item {
     id: winDesktop
     property real albumImageOpacity: 1.0
@@ -97,7 +101,6 @@ Item {
                         StateChangeScript{
                             script:{
                                 swipeView_app.setCurrentIndex(1)
-//                                print("进入页面二")
                                 page1.visible = false
                                 page2.visible = true
 
@@ -145,30 +148,36 @@ Item {
                         color: scrollBarHorizontal1.hovered ? "#25cfea" : "#88bbbbbb"
                     }
                 }
-                Text {
+                DynamicTextColorText {
                     id: tips1
                     text: qsTr("生活动态")
-                    color: "white"
+//                    color: "white"
+                    backgroundSource: mainWindow.currentBackground
+                    textType:1
                     font.pixelSize: 17
                     font.bold: true
                     anchors.bottom: timeRect.top
                     anchors.bottomMargin: 16
                     anchors.left: timeRect.left
                 }
-                Text {
+                DynamicTextColorText {
                     id: tips2
-                    text: qsTr("播放和浏览")
-                    color: "white"
+                    text: qsTr("亿智导师")
+//                    color: "white"
+                    backgroundSource: mainWindow.currentBackground
+                    textType:1
                     font.pixelSize: 17
                     font.bold: true
                     anchors.bottom: timeRect.top
                     anchors.bottomMargin: 16
                     anchors.left: calc_app.left
                 }
-                Text {
+                DynamicTextColorText {
                     id: tips3
-                    text: qsTr("测试与应用")
-                    color: "white"
+                    text: qsTr("系统设置")
+//                    color: "white"
+                    backgroundSource: mainWindow.currentBackground
+                    textType:1
                     font.pixelSize: 17
                     font.bold: true
                     anchors.bottom: timeRect.top
@@ -185,44 +194,48 @@ Item {
                     MouseArea {
                         anchors.fill : parent
                         onClicked: {
-                            mainSwipeView.setCurrentIndex(2)
+                            mainSwipeView.setCurrentIndex(PageIndices.alarmPage)
                         }
                     }
                     Image {
                         anchors.fill: parent
-                        source: "qrc:/desktop/images/bgTime.png"
+                        source: "qrc:/desktop/images/bgWeather.png"
                     }
+                    Column {
+                           anchors.centerIn: parent
+                           spacing: 6 // 设置文本之间的间距
 
-                    Text {
-                        id: textTime
-                        anchors.top: parent.top
-                        anchors.topMargin: 15
-                        anchors.left: parent.left
-                        anchors.leftMargin: 10
-                        horizontalAlignment: Text.AlignHCenter
-                        verticalAlignment: Text.AlignHCenter
-                        color: "white"
-                        font.pixelSize: 50
-                        font.bold: true
-                        text: currentTimeString
-                    }
+                           DynamicTextColorText {
+                               id: textTime
+                               // 移除锚点定位，让Column布局控制位置
+                               horizontalAlignment: Text.AlignHCenter
+                               verticalAlignment: Text.AlignVCenter
+                               // color: "white"
+                               backgroundSource: mainWindow.currentBackground
+                               textType: 2
+                               font.pixelSize: 50
+                               font.bold: true
+                               text: currentTimeString
+                           }
 
-                    Text {
-                        id: textDate
-                        anchors.top: textTime.bottom
-                        anchors.topMargin: 13
-                        anchors.left: textTime.left
-                        horizontalAlignment: Text.AlignHCenter
-                        verticalAlignment: Text.AlignHCenter
-                        color: "#bbffffff"
-                        font.pixelSize: 15
-                        font.bold: true
-                        text: currentDateString
-                    }
+                           DynamicTextColorText {
+                               id: textDate
+                               // 移除锚点定位，让Column布局控制位置
+                               horizontalAlignment: Text.AlignHCenter
+                               verticalAlignment: Text.AlignVCenter
+                               // color: "#bbffffff"
+                               backgroundSource: mainWindow.currentBackground
+                               textType: 2
+                               font.pixelSize: 15
+                               font.bold: true
+                               text: currentDateString
+                           }
+                       }
+
                 }
 
                 Item {
-                    id: weatherRect
+                    id: musicRect
                     anchors.top: timeRect.bottom
                     anchors.left: timeRect.left
                     anchors.topMargin: 5
@@ -231,64 +244,20 @@ Item {
                     MouseArea {
                         anchors.fill : parent
                         onClicked: {
-                            mainSwipeView.setCurrentIndex(3)
+                            mainSwipeView.setCurrentIndex(PageIndices.musicPage)
                         }
                     }
                     Image {
                         anchors.fill: parent
-                        source: "qrc:/desktop/images/bgWeather.png"
-                    }
-                    Image {
-                        id: weatherImage
-                        width: 80
-                        height: 80
-                        anchors.left: parent.left
-                        anchors.top: parent.top
-                        mipmap: true
-                        fillMode: Image.PreserveAspectFit
-                        source: myModel.ready ? (dayOrNight >= 18 || dayOrNight <= 6 ? myModel.weatherData[0].nightPicture
-                                                                                     : myModel.weatherData[0].dayPicture) : ""
-                    }
-                    Text {
-                        id: cTemp
-                        anchors.top: parent.top
-                        anchors.right: parent.right
-                        font.pixelSize: 40
-                        font.family: "方正"
-                        color: "white"
-                        font.bold: true
-                        text:myModel.ready ? myModel.cTemp + "°" : "..."
-                    }
-                    Text {
-                        id: weatherType
-                        anchors.left: cTemp.left
-                        anchors.top: cTemp.bottom
-                        anchors.topMargin: 10
-                        anchors.horizontalCenter: cTemp.horizontalCenter
-                        font.pixelSize: 15
-                        font.family: "方正"
-                        color: "white"
-                        font.bold: true
-                        text: myModel.ready ? myModel.weatherData[0].weather : "..."
-                    }
-                    Text {
-                        id: city
-                        anchors.top: weatherType.bottom
-                        anchors.topMargin: 10
-                        anchors.horizontalCenter: cTemp.horizontalCenter
-                        anchors.left: weatherType.left
-                        font.pixelSize: 15
-                        font.bold: true
-                        font.family: "方正"
-                        text: myModel.ready ? myModel.city + "市" : "..."
-                        color: "white"
-                    }
+                        source: "qrc:/desktop/winstyleicons/music_app_icon.png"
+                    }              
+
                 }
 
                 Item {
                     id: albumRect
-                    anchors.top: weatherRect.bottom
-                    anchors.left: weatherRect.left
+                    anchors.top: musicRect.bottom
+                    anchors.left: musicRect.left
                     anchors.topMargin: 7
                     width: 200
                     height: 102
@@ -306,7 +275,7 @@ Item {
                     MouseArea {
                         anchors.fill : parent
                         onClicked: {
-                            mainSwipeView.setCurrentIndex(9)
+                            mainSwipeView.setCurrentIndex(PageIndices.photoViewPage)
                         }
                     }
                 }
@@ -320,11 +289,11 @@ Item {
                     width: 100
                     height: 102
                     onClicked: {
-                        mainSwipeView.setCurrentIndex(5)
+                        mainSwipeView.setCurrentIndex(PageIndices.calculatorPage)
                     }
                     Image {
                         anchors.centerIn: parent
-                        source: "qrc:/desktop/winstyleicons/calc_app.png"
+                        source: "qrc:/desktop/winstyleicons/calc_icon.png"
                     }
                     Text {
                         text: qsTr("计算器")
@@ -353,7 +322,7 @@ Item {
                     width: 100
                     height: 102
                     onClicked: {
-                        mainSwipeView.setCurrentIndex(2)
+                        mainSwipeView.setCurrentIndex(PageIndices.alarmPage)
                     }
                     Image {
                         width: 100
@@ -388,7 +357,7 @@ Item {
                     width: 100
                     height: 102
                     onClicked: {
-                        mainSwipeView.setCurrentIndex(4)
+                        mainSwipeView.setCurrentIndex(PageIndices.radioPage)
                     }
                     Image {
                         anchors.centerIn: parent
@@ -421,7 +390,7 @@ Item {
                     width: 100
                     height: 102
                     onClicked: {
-                        mainSwipeView.setCurrentIndex(11)
+                        mainSwipeView.setCurrentIndex(PageIndices.airconditionPage)
                     }
                     Text {
                         text: qsTr("空调")
@@ -472,7 +441,7 @@ Item {
                             weather_icon.height = 100
                         }
                         onClicked: {
-                            mainSwipeView.setCurrentIndex(3)
+                            mainSwipeView.setCurrentIndex(PageIndices.weatherPage)
                         }
                     }
 
@@ -506,7 +475,7 @@ Item {
                         source: "qrc:/desktop/winstyleicons/settings_app.png"
                     }
                     onClicked: {
-                        mainSwipeView.setCurrentIndex(16)
+                        mainSwipeView.setCurrentIndex(PageIndices.settingsPage)
                     }
                     Text {
                         text: qsTr("设置")
@@ -529,7 +498,7 @@ Item {
                     width: 100
                     height: 102
                     onClicked: {
-                        mainSwipeView.setCurrentIndex(12)
+                        mainSwipeView.setCurrentIndex(PageIndices.iotestPage)
                     }
                     Text {
                         text: qsTr("按键")
@@ -595,7 +564,7 @@ Item {
                             album_icon.height = 102
                         }
                         onClicked: {
-                            mainSwipeView.setCurrentIndex(9)
+                            mainSwipeView.setCurrentIndex(PageIndices.photoViewPage)
                         }
                     }
                 }
@@ -627,7 +596,7 @@ Item {
                             music_icon.height = 102
                         }
                         onClicked: {
-                            mainSwipeView.setCurrentIndex(1)
+                            mainSwipeView.setCurrentIndex(PageIndices.musicPage)
                         }
                     }
                     style: ButtonStyle {
@@ -645,7 +614,7 @@ Item {
                     width: 100
                     height: 102
                     onClicked: {
-                        mainSwipeView.setCurrentIndex(6)
+                        mainSwipeView.setCurrentIndex(PageIndices.tcpServerPage)
                     }
                     Text {
                         text: qsTr("Tcp-S")
@@ -679,7 +648,7 @@ Item {
                     width: 100
                     height: 102
                     onClicked: {
-                        mainSwipeView.setCurrentIndex(7)
+                        mainSwipeView.setCurrentIndex(PageIndices.tcpClientPage)
                     }
                     Text {
                         text: qsTr("Tcp-C")
@@ -713,7 +682,7 @@ Item {
                     width: 100
                     height: 102
                     onClicked: {
-                        mainSwipeView.setCurrentIndex(10)
+                        mainSwipeView.setCurrentIndex(PageIndices.fileViewPage)
                     }
                     Text {
                         text: qsTr("文件")
@@ -832,7 +801,7 @@ Item {
                     width: 100
                     height: 102
                     onClicked: {
-                        mainSwipeView.setCurrentIndex(8)
+                        mainSwipeView.setCurrentIndex(PageIndices.udpChatPage)
                     }
                     Text {
                         text: qsTr("UDP-CHAT")
@@ -865,7 +834,7 @@ Item {
                     width: 100
                     height: 102
                     onClicked: {
-                        mainSwipeView.setCurrentIndex(15)
+                        mainSwipeView.setCurrentIndex(PageIndices.systemPage)
                     }
                     style: ButtonStyle {
                         background: Rectangle {
@@ -899,7 +868,7 @@ Item {
                     width: 205
                     height: 102
                     onClicked: {
-                        mainSwipeView.setCurrentIndex(17)
+                        mainSwipeView.setCurrentIndex(PageIndices.myCameraMediaPage)
                     }
                     style: ButtonStyle {
                         background: Rectangle {
@@ -932,7 +901,7 @@ Item {
                     width: 100
                     height: 102
                     onClicked: {
-                        mainSwipeView.setCurrentIndex(14)
+                        mainSwipeView.setCurrentIndex(PageIndices.myWirelessPage)
                     }
                     style: ButtonStyle {
                         background: Rectangle {
@@ -967,7 +936,7 @@ Item {
                     width: 205
                     height: 102
                     onClicked: {
-                        mainSwipeView.setCurrentIndex(13)
+                        mainSwipeView.setCurrentIndex(PageIndices.sensorPage)
                     }
                     style: ButtonStyle {
                         background: Rectangle {
